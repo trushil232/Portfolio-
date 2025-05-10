@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trushil Raval - Portfolio</title>
+    <style>
+        /* Global Styles & F1 Theme Base */
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+
+        :root {
+            --primary-color: #00A1E0; /* Vibrant Blue - F1 Accent */
+            --dark-bg: #121212;
+            --medium-bg: #1e1e1e;
+            --light-text: #e0e0e0;
+            --medium-text: #a0a0a0;
+            --card-bg: #2a2a2a;
+            --border-color: #333;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--dark-bg);
+            color: var(--light-text);
+            line-height: 1.7;
+            overflow-x: hidden; /* Prevent horizontal scrollbar */
+        }
+
+        h1, h2, h3, h4 {
+            color: var(--light-text);
+            margin-bottom: 0.8em;
+            font-weight: 600;
+        }
+
+        h1 { font-size: 3em; line-height: 1.2; }
+        h2 { font-size: 2.2em; border-bottom: 2px solid var(--primary-color); display: inline-block; padding-bottom: 0.3em; margin-bottom: 1em;}
+        h3 { font-size: 1.5em; color: var(--primary-color); }
+        h4 { font-size: 1.2em; color: var(--medium-text); }
+
+        p {
+            margin-bottom: 1em;
+            color: var(--medium-text);
+        }
+
+        a {
+            color: var(--primary-color);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: #00c3ff;
+        }
+
+        ul {
+            list-style: none;
+            padding-left: 20px;
+        }
+
+        ul li {
+            margin-bottom: 0.5em;
+            position: relative;
+        }
+
+        ul li::before {
+            content: '»'; /* F1 style bullet */
+            position: absolute;
+            left: -20px;
+            color: var(--primary-color);
+            font-weight: bold;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: auto;
+            padding: 0 20px;
+            overflow: hidden; /* Clear floats */
+        }
+
+        section {
+            padding: 80px 0;
+            opacity: 0; /* For fade-in animation */
+            transform: translateY(30px); /* For fade-in animation */
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Navbar */
+        #navbar {
+            background: rgba(18, 18, 18, 0.9); /* Slightly transparent dark */
+            color: var(--light-text);
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+            backdrop-filter: blur(5px); /* Frosted glass effect */
+        }
+
+        #navbar .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        #navbar .logo {
+            font-size: 1.5em;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        #navbar nav ul {
+            display: flex;
+            list-style: none;
+            padding-left: 0;
+        }
+        #navbar nav ul li::before { content: ''; } /* Remove default bullet for nav */
+
+        #navbar nav ul li a {
+            color: var(--light-text);
+            padding: 0.5rem 1rem;
+            margin: 0 0.3rem;
+            transition: color 0.3s ease, background-color 0.3s ease;
+            border-radius: 4px;
+        }
+
+        #navbar nav ul li a:hover,
+        #navbar nav ul li a.active {
+            color: var(--dark-bg);
+            background-color: var(--primary-color);
+        }
+
+        /* Hero Section */
+        #hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: var(--dark-bg); /* Can be an image or gradient later */
+        }
+
+        #hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 0.3em;
+            animation: fadeInDown 1s ease-out;
+        }
+
+        #hero .tagline {
+            font-size: 1.5rem;
+            margin-bottom: 1.5em;
+            color: var(--medium-text);
+            max-width: 700px;
+            animation: fadeInUp 1s ease-out 0.5s;
+            animation-fill-mode: backwards; /* Stay hidden until animation starts */
+        }
+
+        #hero .contact-icons a {
+            margin: 0 15px;
+            font-size: 1.8rem;
+            animation: fadeInUp 1s ease-out 1s;
+            animation-fill-mode: backwards;
+        }
+        /* Basic animations for hero section text */
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+
+        /* Skills Section */
+        #skills .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        #skills .skill-category {
+            background: var(--card-bg);
+            padding: 1.5rem;
+            border-radius: 8px;
+            border-left: 4px solid var(--primary-color);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        #skills .skill-category:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        #skills .skill-category h4 {
+            color: var(--light-text);
+            margin-bottom: 0.5em;
+        }
+
+        #skills .skill-category ul {
+            padding-left: 0;
+        }
+        #skills .skill-category ul li::before { content: ''; } /* Remove bullets for skills list */
+        #skills .skill-category ul li {
+             display: inline-block;
+             background: var(--medium-bg);
+             color: var(--light-text);
+             padding: 0.3em 0.8em;
+             margin: 0.3em;
+             border-radius: 4px;
+             font-size: 0.9em;
+        }
+
+
+        /* Experience Section */
+        .experience-item {
+            background: var(--card-bg);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border-radius: 8px;
+            border-left: 5px solid var(--primary-color);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .experience-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+
+        .experience-item .date {
+            font-size: 0.9em;
+            color: var(--medium-text);
+            float: right;
+            font-style: italic;
+        }
+
+        /* Education Section */
+        .education-item {
+            margin-bottom: 1.5rem;
+        }
+
+        /* Extra Curricular & Awards */
+        .grid-layout {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        .grid-item {
+            background: var(--card-bg);
+            padding: 1.5rem;
+            border-radius: 8px;
+        }
+        .grid-item h4 { color: var(--light-text); }
+
+
+        /* Hobbies */
+        #hobbies ul {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            padding-left: 0;
+        }
+        #hobbies ul li::before { content: ''; }
+        #hobbies ul li {
+            background-color: var(--medium-bg);
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+        #hobbies ul li:hover {
+            background-color: var(--primary-color);
+            color: var(--dark-bg);
+            transform: translateY(-3px);
+        }
+
+        /* Contact Section */
+        #contact p {
+            font-size: 1.1em;
+            margin-bottom: 2rem;
+        }
+        #contact .contact-links a {
+            display: inline-block;
+            margin: 0.5rem 1rem 0.5rem 0;
+            font-size: 1.2em;
+            padding: 0.5em 1em;
+            background-color: var(--primary-color);
+            color: var(--dark-bg);
+            border-radius: 5px;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+        #contact .contact-links a:hover {
+            background-color: #007bb5; /* Darker shade of primary */
+            transform: translateY(-3px);
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 2rem 0;
+            background: var(--medium-bg);
+            color: var(--medium-text);
+            font-size: 0.9em;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            h1 { font-size: 2.5em; }
+            #hero h1 { font-size: 2.8rem; }
+            #hero .tagline { font-size: 1.2rem; }
+            h2 { font-size: 1.8em; }
+
+            #navbar .container {
+                flex-direction: column;
+            }
+            #navbar nav ul {
+                margin-top: 10px;
+                flex-wrap: wrap; /* Allow nav items to wrap */
+                justify-content: center; /* Center wrapped items */
+            }
+            #navbar nav ul li a {
+                padding: 0.5rem;
+                margin: 0.2rem;
+            }
+
+            .experience-item .date {
+                float: none;
+                display: block;
+                margin-top: 0.5em;
+            }
+        }
+
+        @media (max-width: 480px) {
+            #hero h1 { font-size: 2.2rem; }
+            #hero .tagline { font-size: 1rem; }
+            #skills .skills-grid, .grid-layout {
+                grid-template-columns: 1fr; /* Stack items on small screens */
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+    <header id="navbar">
+        <div class="container">
+            <a href="#hero" class="logo">Trushil Raval</a>
+            <nav>
+                <ul>
+                    <li><a href="#hero">Home</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#skills">Skills</a></li>
+                    <li><a href="#experience">Experience</a></li>
+                    <li><a href="#education">Education</a></li>
+                    <li><a href="#extracurricular">Activities</a></li>
+                    <li><a href="#hobbies">Hobbies</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section id="hero">
+            <div class="container">
+                <h1>Trushil Raval</h1>
+                <p class="tagline">Leveraging technology & UX design for innovative, secure, and ethical solutions.</p>
+                <div class="contact-icons">
+                    <a href="tel:+919619915607" aria-label="Call Trushil">📞</a> <!-- Replace with actual icons later -->
+                    <a href="mailto:trushilr@gmail.com" aria-label="Email Trushil">📧</a>
+                    <a href="https://linkedin.com/in//" target="_blank" rel="noopener noreferrer" aria-label="Trushil's LinkedIn">🔗</a>
+                </div>
+            </div>
+        </section>
+
+        <section id="about" class="fade-in-section">
+            <div class="container">
+                <h2>About Me</h2>
+                <p>
+                    To leverage my strong foundation in technology and user experience design, combined with expertise in software
+                    engineering and business management, to drive innovative and secure solutions in any industry ethically.
+                </p>
+            </div>
+        </section>
+
+        <section id="skills" class="fade-in-section">
+            <div class="container">
+                <h2>Skills</h2>
+                <div class="skills-grid">
+                    <div class="skill-category">
+                        <h4>Languages</h4>
+                        <ul><li>Python</li><li>Java</li><li>JavaScript</li><li>HTML</li><li>CSS</li></ul>
+                    </div>
+                    <div class="skill-category">
+                        <h4>Libraries/Frameworks</h4>
+                        <ul><li>Pandas</li><li>NumPy</li><li>Matplotlib</li><li>Flask</li><li>Django</li></ul>
+                    </div>
+                    <div class="skill-category">
+                        <h4>Courses & Technical Knowledge</h4>
+                        <ul><li>Data Structures & Algorithms</li><li>Responsive Web Design</li><li>Google Analytics</li><li>Business Analysis</li><li>Game Dev</li></ul>
+                    </div>
+                    <div class="skill-category">
+                        <h4>Soft Skills</h4>
+                        <ul><li>Project Management (Task assignment, KPI setting, deadline management)</li><li>Communication (Stakeholder comms, public speaking, mediation)</li><li>Marketing (Video creation, promotional strategies, customer engagement)</li><li>Finance (Budget management, profit generation, anti-fraud policy dev)</li><li>Event Management (Planning, execution, operational support)</li></ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="experience" class="fade-in-section">
+            <div class="container">
+                <h2>Experience</h2>
+                <div class="experience-item">
+                    <h3>DSR International School Exhibition | Technical Lead <span class="date">2024</span></h3>
+                    <ul>
+                        <li>Led the development of a quiz website from concept to launch.</li>
+                        <li>Analysed user pain points to create an engaging game solution.</li>
+                        <li>Established the IT infrastructure necessary for running the game.</li>
+                        <li>Implemented live updates based on user feedback during the event.</li>
+                    </ul>
+                </div>
+                <div class="experience-item">
+                    <h3>School Enterprise Challenge | Head of People <span class="date">2023 – 2024</span></h3>
+                    <ul>
+                        <li>Led the team in generating a profit of 200,000 rupees.</li>
+                        <li>Spearheaded the ideation, development, design, and testing phases of event games.</li>
+                        <li>Implemented an "early bird system" to attract new users.</li>
+                        <li>Directed the creative design of event currency.</li>
+                        <li>Developed an anti-fraud policy to detect and prevent theft.</li>
+                        <li>Managed staff and provided operational support during the live event.</li>
+                        <li>Assisted early bird customers with issues during the event.</li>
+                        <li>Made public announcements regarding event updates and staff rotations.</li>
+                        <li>Oversaw technological requirements and directed the marketing team for video creation.</li>
+                        <li>Handled finances and provided operational support for food sales.</li>
+                        <li>Improved sales of less popular foods through strategic pricing adjustments.</li>
+                        <li>Partnered with other game organisers to develop a discount scheme.</li>
+                        <li>Negotiated with external resource providers.</li>
+                    </ul>
+                </div>
+                <div class="experience-item">
+                    <h3>Model United Nations | Chief of Staff <span class="date">2023 – 2024</span></h3>
+                    <ul>
+                        <li>Acted as the primary liaison between staff and various stakeholders.</li>
+                        <li>Managed and coordinated a team of staff members, setting key performance indicators (KPIs) and deadlines.</li>
+                        <li>Served as the main contact point for participants.</li>
+                        <li>Hosted and spoke at multiple events, ensuring smooth execution and engagement.</li>
+                    </ul>
+                </div>
+                <div class="experience-item">
+                    <h3>School Enterprise Challenge | Management of People <span class="date">2022 – 2023</span></h3>
+                    <ul>
+                        <li>Assigned tasks and set objectives for team members.</li>
+                        <li>Defined roles and responsibilities, ensuring balanced and efficient teams.</li>
+                        <li>Enhanced inter-team communication to reduce friction.</li>
+                        <li>Prioritised tasks based on customer impact, reach, confidence, and effort.</li>
+                        <li>Created and marketed a promotional video to boost event awareness.</li>
+                    </ul>
+                </div>
+                <div class="experience-item">
+                    <h3>DSR International School Farewell | Associate Event Organiser <span class="date">2022 – 2023</span></h3>
+                    <ul>
+                        <li>Planned and managed invitations for attendees.</li>
+                        <li>Edited the invitation video.</li>
+                        <li>Assisted with executive decisions for event games.</li>
+                    </ul>
+                </div>
+                 <div class="experience-item">
+                    <h3>Model United Nations | Organisation Committee Member <span class="date">2022 – 2023</span></h3>
+                    <ul>
+                        <li>Assisted delegates in understanding procedural rules and regulations.</li>
+                        <li>Facilitated communication and logistical requirements for Executive Board (EB) members.</li>
+                        <li>Mediated discussions and managed the flow of communication documents between parties.</li>
+                    </ul>
+                </div>
+                <div class="experience-item">
+                    <h3>Self-employed | YouTube Channel Advisor <span class="date">October 2016 - March 2022</span></h3>
+                    <ul>
+                        <li>Managed a YouTube channel, achieving 75 million views, by implementing data-driven audience targeting.</li>
+                        <li>Stayed updated on industry trends, platform updates, and best practices through continuous learning.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="education" class="fade-in-section">
+            <div class="container">
+                <h2>Education</h2>
+                <div class="education-item">
+                    <h3>DSR International School <span class="date">2022 – 2024</span></h3>
+                    <p>Cambridge AS and A Levels - Physics, Chemistry, IT, English, and Mathematics</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="extracurricular" class="fade-in-section">
+            <div class="container">
+                <h2>Extra Curricular Activities & Awards</h2>
+                <div class="grid-layout">
+                    <div class="grid-item">
+                        <h4>Game Development</h4>
+                        <p>Learning Unreal Engine and studying game physics with AI models (March 2024 – Present)</p>
+                    </div>
+                    <div class="grid-item">
+                        <h4>VFX and 3D Art</h4>
+                        <p>Creating 3D models and understanding Blender software (March 2024 – Present)</p>
+                    </div>
+                    <div class="grid-item">
+                        <h4>Video Editing</h4>
+                        <p>Understanding flow of a cinematic video and technicalities behind video formats (Jan 2020 – Present)</p>
+                    </div>
+                    <div class="grid-item">
+                        <h4>Awards (2023 - 2024)</h4>
+                        <ul>
+                            <li>Gold winner for SEC business competition (2023)</li>
+                            <li>Best business idea award (2024)</li>
+                            <li>Monetary reward for placing business above else in SEC business competition (2024)</li>
+                            <li>Leadership appreciation certificate for Chief role in MUN (2024)</li>
+                            <li>Organisation appreciation certificate for MUN (2023)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="hobbies" class="fade-in-section">
+            <div class="container">
+                <h2>Hobbies</h2>
+                <ul>
+                    <li>Various dance group performances (Jazz, Bollywood, Michael Jackson) (2015 – 2019)</li>
+                    <li>Swimming club member (2014 – 2017)</li>
+                    <li>Acrylic paint and oil pastel artist (2017 – 2019)</li>
+                    <li>Competitive ESports player internationally (2020 – 2024)</li>
+                    <li>Classical music learner and keyboard player (2017 – 2019)</li>
+                    <li>Semi-professional skating (2012-2015)</li>
+                    <li>Football club member (2014 – 2017)</li>
+                </ul>
+            </div>
+        </section>
+
+        <section id="contact" class="fade-in-section">
+            <div class="container">
+                <h2>Get In Touch</h2>
+                <p>
+                    I'm always open to discussing new projects, creative ideas, or opportunities to be part of something amazing.
+                    Feel free to reach out!
+                </p>
+                <div class="contact-links">
+                    <a href="tel:+919619915607">Call Me</a>
+                    <a href="mailto:trushilr@gmail.com">Email Me</a>
+                    <a href="https://linkedin.com/in//" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>© <span id="currentYear"></span> Trushil Raval. All rights reserved. Designed with an F1 spirit.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scroll for navigation links & active link highlighting
+        document.addEventListener('DOMContentLoaded', function() {
+            const navLinks = document.querySelectorAll('#navbar nav ul li a');
+            const sections = document.querySelectorAll('main section');
+
+            // Smooth scroll
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    // e.preventDefault(); // Only prevent if it's an internal link
+                    const targetId = this.getAttribute('href');
+                    if (targetId.startsWith('#')) {
+                        e.preventDefault();
+                        const targetElement = document.querySelector(targetId);
+                        if (targetElement) {
+                            // Calculate offset for fixed navbar
+                            const navbarHeight = document.getElementById('navbar').offsetHeight;
+                            const elementPosition = targetElement.getBoundingClientRect().top;
+                            const offsetPosition = elementPosition + window.pageYOffset - navbarHeight;
+
+                            window.scrollTo({
+                                top: offsetPosition,
+                                behavior: 'smooth'
+                            });
+                        }
+                    }
+                });
+            });
+
+            // Active link highlighting on scroll
+            function changeActiveLink() {
+                let index = sections.length;
+                const navbarHeight = document.getElementById('navbar').offsetHeight;
+
+                while(--index && window.scrollY + navbarHeight + 50 < sections[index].offsetTop) {} // 50 is an offset
+
+                navLinks.forEach((link) => link.classList.remove('active'));
+                // Check if the corresponding link exists before trying to add 'active' class
+                if (navLinks[index]) {
+                    navLinks[index].classList.add('active');
+                }
+            }
+
+            // Initial call for active link
+            changeActiveLink();
+            window.addEventListener('scroll', changeActiveLink);
+
+
+            // Intersection Observer for fade-in animations (basic "fluid text transfer")
+            const fadeElements = document.querySelectorAll('.fade-in-section');
+            const heroSection = document.getElementById('hero'); // Hero is always visible initially
+
+            const observerOptions = {
+                root: null, // relative to document viewport
+                rootMargin: '0px',
+                threshold: 0.1 // 10% of item is visible
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        // observer.unobserve(entry.target); // Optional: stop observing after first animation
+                    } else {
+                        // Optional: remove 'visible' if you want animation to repeat on scroll up/down
+                        // entry.target.classList.remove('visible');
+                    }
+                });
+            }, observerOptions);
+            
+            // Manually trigger hero section as visible since it doesn't rely on scroll for initial view
+            if (heroSection) {
+                heroSection.classList.add('visible');
+            }
+
+            fadeElements.forEach(el => {
+                observer.observe(el);
+            });
+
+            // Update copyright year
+            document.getElementById('currentYear').textContent = new Date().getFullYear();
+        });
+    </script>
+
+</body>
+</html>
